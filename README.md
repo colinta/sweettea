@@ -56,10 +56,15 @@ end
 --------------
 
     gem install sugarcube
+    gem install teacup
+    gem install sweettea
 
     # or in Gemfile
     gem 'sugarcube'
+    gem 'teacup'
+    gem 'sweettea'
 
     # in Rakefile
     require 'sugarcube'
-    require 'sugarcube-sweettea'
+    require 'teacup'
+    require 'sweettea'
