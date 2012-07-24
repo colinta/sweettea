@@ -29,11 +29,10 @@ Teacup.handler UIActivityIndicatorView, :color { |view, color|
   view.color = color.uicolor
 }
 
-Teacup.handler UIActivityIndicatorView, :style { |view, style|
+Teacup.handler UIActivityIndicatorView, :activityIndicatorViewStyle, :style { |view, style|
   style = style.uiactivityindicatorstyle unless style.is_a?(Fixnum)
   view.activityIndicatorViewStyle = style
 }
-Teacup.alias UIActivityIndicatorView, :activityIndicatorViewStyle => :style
 
 
 Teacup.handler UIButton, :normal, :image { |view, img|
@@ -121,7 +120,7 @@ Teacup.handler UIButton, :bg_disabled { |view, img|
 }
 
 Teacup.handler UIButton, :returnKeyType, :returnkey { |view, type|
-  type = type.uireturnkey if Symbol === type
+  type = type.uireturnkey if type.is_a? Symbol
   view.setReturnKeyType(type)
 }
 
@@ -141,14 +140,70 @@ Teacup.handler UIImageView, :image { |view, img|
 }
 
 
-Teacup.handler UILabel, :textColor { |view, color|
+##|
+##|  UILabel
+##|
+Teacup.alias UILabel, :autoshrink => :adjustsFontSizeToFitWidth
+Teacup.alias UILabel, :minimumSize => :minimumFontSize
+
+Teacup.handler UILabel, :textColor, :color { |view, color|
   view.textColor = color.uicolor
 }
 
+Teacup.handler UILabel, :font { |view, font|
+  view.textFont = font.uifont
+}
 
+Teacup.handler UILabel, :highlightedTextColor, :highlightedColor { |view, color|
+  view.highlightedTextColor = color.uicolor
+}
+
+Teacup.handler UILabel, :font { |view, font|
+  view.textFont = font.uifont
+}
+
+Teacup.handler UILabel, :lineBreakMode { |view, mode|
+  mode = mode.uilinebreakmode if mode.is_a? Symbol
+  view.textColor = mode
+}
+
+Teacup.handler UILabel, :textAlignment, :alignment { |view, alignment|
+  alignment = alignment.uitextalignment if alignment.is_a? Symbol
+  view.textColor = alignment
+}
+
+Teacup.handler UILabel, :baselineAdjustment, :baseline { |view, baseline|
+  baseline = baseline.uibaselineadjustment if baseline.is_a? Symbol
+  view.baselineAdjustment = baseline
+}
+
+Teacup.handler UIView, :shadow { |view, shadow|
+  {
+    opacity: :'shadowOpacity=',
+    radius: :'shadowRadius=',
+    offset: :'shadowOffset=',
+    color: :'shadowColor=',
+    path: :'shadowPath=',
+  }.each { |key, msg|
+    if value = shadow[key]
+      if key == :color
+        value = value.uicolor.CGColor
+      end
+      NSLog "Setting layer.#{msg} = #{value.inspect}" if view.respond_to? :debug and view.debug
+      view.layer.send(msg, value)
+      view.layer.masksToBounds = false
+      view.layer.shouldRasterize = true
+    end
+  }
+}
+
+
+##|
+##|  UINavigationBar
+##|
 Teacup.handler UINavigationBar, :backgroundImage { |view, styles|
   styles.each do |metric, image|
-    metric = metric.uibarmetrics if Symbol === metric
+    metric = metric.uibarmetrics if metric.is_a? Symbol
     view.setBackgroundImage(image.uiimage, forBarMetrics:metric)
   end
 }
