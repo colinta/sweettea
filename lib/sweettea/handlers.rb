@@ -1,10 +1,10 @@
 # please organize by hierarchy and alphabetically, double spaces between classes
 
-UIView.teacup_handler :backgroundColor { |view, color|
+Teacup.handler UIView, :backgroundColor { |view, color|
   view.backgroundColor = color.uicolor
 }
 
-UIView.teacup_handler :shadow { |view, shadow|
+Teacup.handler UIView, :shadow { |view, shadow|
   {
     opacity: :'shadowOpacity=',
     radius: :'shadowRadius=',
@@ -25,24 +25,24 @@ UIView.teacup_handler :shadow { |view, shadow|
 }
 
 
-UIActivityIndicatorView.teacup_handler :color { |view, color|
+Teacup.handler UIActivityIndicatorView, :color { |view, color|
   view.color = color.uicolor
 }
 
-UIActivityIndicatorView.teacup_handler :style { |view, style|
+Teacup.handler UIActivityIndicatorView, :style { |view, style|
   style = style.uiactivityindicatorstyle unless style.is_a?(Fixnum)
   view.activityIndicatorViewStyle = style
 }
-UIActivityIndicatorView.teacup_alias :activityIndicatorViewStyle => :style
+Teacup.alias UIActivityIndicatorView, :activityIndicatorViewStyle => :style
 
 
-UIButton.teacup_handler :normal, :image { |view, img|
+Teacup.handler UIButton, :normal, :image { |view, img|
   image = img.uiimage
   if not image
     NSLog("WARN: Could not find #{img.inspect}")
     return
   end
-  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
 
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
@@ -50,13 +50,13 @@ UIButton.teacup_handler :normal, :image { |view, img|
   view.setImage(image, forState: UIControlStateNormal)
 }
 
-UIButton.teacup_handler :highlighted { |view, img|
+Teacup.handler UIButton, :highlighted { |view, img|
   image = img.uiimage
   if not image
     NSLog("WARN: Could not find #{img.inspect}")
     return
   end
-  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
 
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
@@ -64,13 +64,13 @@ UIButton.teacup_handler :highlighted { |view, img|
   view.setImage(image, forState: UIControlStateHighlighted)
 }
 
-UIButton.teacup_handler :disabled { |view, img|
+Teacup.handler UIButton, :disabled { |view, img|
   image = img.uiimage
   if not image
     NSLog("WARN: Could not find #{img.inspect}")
     return
   end
-  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
 
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
@@ -78,13 +78,13 @@ UIButton.teacup_handler :disabled { |view, img|
   view.setImage(image, forState: UIControlStateDisabled)
 }
 
-UIButton.teacup_handler :bg_normal, :bg_image { |view, img|
+Teacup.handler UIButton, :bg_normal, :bg_image { |view, img|
   image = img.uiimage
   if not image
     NSLog("WARN: Could not find #{img.inspect}")
     return
   end
-  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
 
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
@@ -92,13 +92,13 @@ UIButton.teacup_handler :bg_normal, :bg_image { |view, img|
   view.setBackgroundImage(image, forState: UIControlStateNormal)
 }
 
-UIButton.teacup_handler :bg_highlighted { |view, img|
+Teacup.handler UIButton, :bg_highlighted { |view, img|
   image = img.uiimage
   if not image
     NSLog("WARN: Could not find #{img.inspect}")
     return
   end
-  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
 
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
@@ -106,13 +106,13 @@ UIButton.teacup_handler :bg_highlighted { |view, img|
   view.setBackgroundImage(image, forState: UIControlStateHighlighted)
 }
 
-UIButton.teacup_handler :bg_disabled { |view, img|
+Teacup.handler UIButton, :bg_disabled { |view, img|
   image = img.uiimage
   if not image
     NSLog("WARN: Could not find #{img.inspect}")
     return
   end
-  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
 
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
@@ -120,19 +120,19 @@ UIButton.teacup_handler :bg_disabled { |view, img|
   view.setBackgroundImage(image, forState: UIControlStateDisabled)
 }
 
-UIButton.teacup_handler :returnKeyType, :returnkey { |view, type|
+Teacup.handler UIButton, :returnKeyType, :returnkey { |view, type|
   type = type.uireturnkey if Symbol === type
   view.setReturnKeyType(type)
 }
 
 
-UIImageView.teacup_handler :image { |view, img|
+Teacup.handler UIImageView, :image { |view, img|
   image = img.uiimage
   if not image
     NSLog("WARN: Could not find #{img.inspect}")
     return
   end
-  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
 
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
@@ -141,12 +141,12 @@ UIImageView.teacup_handler :image { |view, img|
 }
 
 
-UILabel.teacup_handler :textColor { |view, color|
+Teacup.handler UILabel, :textColor { |view, color|
   view.textColor = color.uicolor
 }
 
 
-UINavigationBar.teacup_handler :backgroundImage { |view, styles|
+Teacup.handler UINavigationBar, :backgroundImage { |view, styles|
   styles.each do |metric, image|
     metric = metric.uibarmetrics if Symbol === metric
     view.setBackgroundImage(image.uiimage, forBarMetrics:metric)
@@ -154,7 +154,7 @@ UINavigationBar.teacup_handler :backgroundImage { |view, styles|
 }
 
 
-UITextField.teacup_handler :keyboardType { |view, type|
+Teacup.handler UITextField, :keyboardType { |view, type|
   type = type.uikeyboardtype unless type.is_a?(Fixnum)
   view.setKeyboardType type
 }
