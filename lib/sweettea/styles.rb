@@ -5,8 +5,8 @@ Teacup::Stylesheet.new :sweettea do
     minimumFontSize: 10,
     autoshrink: true,
     baseline: :alignbaselines,
-    lineBreakMode: :tailtruncation.uilinebreakmode,
-    alignment: :left.uialignment,
+    lineBreakMode: :tailtruncation,
+    alignment: :left,
     text:
     color: :black,
     backgroundColor: :clear
