@@ -7,7 +7,6 @@ Teacup::Stylesheet.new :sweettea do
     baseline: :alignbaselines,
     lineBreakMode: :tailtruncation,
     alignment: :left,
-    text:
     color: :black,
     backgroundColor: :clear
 
