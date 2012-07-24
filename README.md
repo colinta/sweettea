@@ -36,22 +36,6 @@ style :label,
   # (it will not be set if frame.size is already set to something other than [0, 0])
 ```
 
- classes
----------
-
-tiny tiny useful classes, like if you want to have an imageview with stuff on it
-(sets `userInteractionEnabled` to true) or an image button, or a full screen
-view without caring to check the device.
-
-```ruby
-subview(UIButton.custom, bg_image: "image name")
-subview(STFullScreenView) do
-end
-subview(STInteractiveImageView, image: "backrgound") do
-  subview(UITextField, :name)
-end
-```
-
  installation
 --------------
 
