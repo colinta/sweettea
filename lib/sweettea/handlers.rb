@@ -151,15 +151,11 @@ Teacup.handler UILabel, :textColor, :color { |view, color|
 }
 
 Teacup.handler UILabel, :font { |view, font|
-  view.textFont = font.uifont
+  view.font = font.uifont
 }
 
 Teacup.handler UILabel, :highlightedTextColor, :highlightedColor { |view, color|
   view.highlightedTextColor = color.uicolor
-}
-
-Teacup.handler UILabel, :font { |view, font|
-  view.textFont = font.uifont
 }
 
 Teacup.handler UILabel, :lineBreakMode { |view, mode|
