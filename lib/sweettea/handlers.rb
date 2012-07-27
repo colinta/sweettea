@@ -160,12 +160,12 @@ Teacup.handler UILabel, :highlightedTextColor, :highlightedColor { |view, color|
 
 Teacup.handler UILabel, :lineBreakMode { |view, mode|
   mode = mode.uilinebreakmode if mode.is_a? Symbol
-  view.textColor = mode
+  view.lineBreakMode = mode
 }
 
 Teacup.handler UILabel, :textAlignment, :alignment { |view, alignment|
   alignment = alignment.uitextalignment if alignment.is_a? Symbol
-  view.textColor = alignment
+  view.textAlignment = alignment
 }
 
 Teacup.handler UILabel, :baselineAdjustment, :baseline { |view, baseline|
