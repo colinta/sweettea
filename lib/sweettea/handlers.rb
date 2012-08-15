@@ -36,85 +36,109 @@ Teacup.handler UIActivityIndicatorView, :activityIndicatorViewStyle, :style { |v
 
 
 Teacup.handler UIButton, :normal, :image { |view, img|
-  image = img.uiimage
-  if not image
-    NSLog("WARN: Could not find #{img.inspect}")
-    return
-  end
-  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
+  if img == nil
+    image = nil
+  else
+    image = img.uiimage
+    if not image
+      NSLog("WARN: Could not find #{img.inspect}")
+      return
+    end
+    raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
 
-  if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
-    view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
+      view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    end
   end
   view.setImage(image, forState: UIControlStateNormal)
 }
 
 Teacup.handler UIButton, :highlighted { |view, img|
-  image = img.uiimage
-  if not image
-    NSLog("WARN: Could not find #{img.inspect}")
-    return
-  end
-  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
+  if img == nil
+    image = nil
+  else
+    image = img.uiimage
+    if not image
+      NSLog("WARN: Could not find #{img.inspect}")
+      return
+    end
+    raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
 
-  if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
-    view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
+      view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    end
   end
   view.setImage(image, forState: UIControlStateHighlighted)
 }
 
 Teacup.handler UIButton, :disabled { |view, img|
-  image = img.uiimage
-  if not image
-    NSLog("WARN: Could not find #{img.inspect}")
-    return
-  end
-  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
+  if img == nil
+    image = nil
+  else
+    image = img.uiimage
+    if not image
+      NSLog("WARN: Could not find #{img.inspect}")
+      return
+    end
+    raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
 
-  if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
-    view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
+      view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    end
   end
   view.setImage(image, forState: UIControlStateDisabled)
 }
 
 Teacup.handler UIButton, :bg_normal, :bg_image { |view, img|
-  image = img.uiimage
-  if not image
-    NSLog("WARN: Could not find #{img.inspect}")
-    return
-  end
-  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
+  if img == nil
+    image = nil
+  else
+    image = img.uiimage
+    if not image
+      NSLog("WARN: Could not find #{img.inspect}")
+      return
+    end
+    raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
 
-  if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
-    view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
+      view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    end
   end
   view.setBackgroundImage(image, forState: UIControlStateNormal)
 }
 
 Teacup.handler UIButton, :bg_highlighted { |view, img|
-  image = img.uiimage
-  if not image
-    NSLog("WARN: Could not find #{img.inspect}")
-    return
-  end
-  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
+  if img == nil
+    image = nil
+  else
+    image = img.uiimage
+    if not image
+      NSLog("WARN: Could not find #{img.inspect}")
+      return
+    end
+    raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
 
-  if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
-    view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
+      view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    end
   end
   view.setBackgroundImage(image, forState: UIControlStateHighlighted)
 }
 
 Teacup.handler UIButton, :bg_disabled { |view, img|
-  image = img.uiimage
-  if not image
-    NSLog("WARN: Could not find #{img.inspect}")
-    return
-  end
-  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
+  if img == nil
+    image = nil
+  else
+    image = img.uiimage
+    if not image
+      NSLog("WARN: Could not find #{img.inspect}")
+      return
+    end
+    raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
 
-  if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
-    view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
+      view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    end
   end
   view.setBackgroundImage(image, forState: UIControlStateDisabled)
 }
@@ -126,15 +150,19 @@ Teacup.handler UIButton, :returnKeyType, :returnkey { |view, type|
 
 
 Teacup.handler UIImageView, :image { |view, img|
-  image = img.uiimage
-  if not image
-    NSLog("WARN: Could not find #{img.inspect}")
-    return
-  end
-  raise "Expected UIImage Teacup handler : in,image, not #{image.inspect}" unless image.is_a?(UIImage)
+  if img == nil
+    image = nil
+  else
+    image = img.uiimage
+    if not image
+      NSLog("WARN: Could not find #{img.inspect}")
+      return
+    end
+    raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
 
-  if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
-    view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
+      view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
+    end
   end
   view.image = image
 }
