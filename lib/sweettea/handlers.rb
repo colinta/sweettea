@@ -149,6 +149,12 @@ Teacup.handler UIButton, :returnKeyType, :returnkey { |view, type|
 }
 
 
+Teacup.handler UIDatePicker, :mode, :datePickerMode { |view, mode|
+  mode = mode.uidatepickermode if mode.is_a? Symbol
+  view.setDatePickerMode(mode)
+}
+
+
 Teacup.handler UIImageView, :image { |view, img|
   if img == nil
     image = nil
