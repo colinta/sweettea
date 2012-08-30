@@ -53,7 +53,7 @@ Teacup.handler UIButton, :normal, :image { |view, img|
   view.setImage(image, forState: UIControlStateNormal)
 }
 
-Teacup.handler UIButton, :highlighted { |view, img|
+Teacup.handler UIButton, :highlighted, :pushed { |view, img|
   if img == nil
     image = nil
   else
