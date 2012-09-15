@@ -194,7 +194,54 @@ Teacup.handler UINavigationBar, :backgroundImage { |view, styles|
 }
 
 
+##|
+##|  UITextField
+##|
 Teacup.handler UITextField, :keyboardType { |view, type|
   type = type.uikeyboardtype unless type.is_a?(Fixnum)
   view.setKeyboardType type
+}
+
+Teacup.handler UITextField, :textColor, :color { |view, color|
+  view.textColor = color.uicolor
+}
+
+Teacup.handler UITextField, :font { |view, font|
+  view.font = font.uifont
+}
+
+Teacup.handler UITextField, :textAlignment, :alignment { |view, alignment|
+  alignment = alignment.uitextalignment if alignment.is_a? Symbol
+  view.textAlignment = alignment
+}
+
+Teacup.handler UITextField, :borderStyle, :border { |view, border|
+  border = border.uibordertype if border.is_a? Symbol
+  view.borderStyle = border
+}
+
+Teacup.handler UITextField, :background { |view, image|
+  view.background = image.uiimage
+}
+
+
+##|
+##|  UITextView
+##|
+Teacup.handler UITextView, :keyboardType { |view, type|
+  type = type.uikeyboardtype unless type.is_a?(Fixnum)
+  view.setKeyboardType type
+}
+
+Teacup.handler UITextView, :textColor, :color { |view, color|
+  view.textColor = color.uicolor
+}
+
+Teacup.handler UITextView, :font { |view, font|
+  view.font = font.uifont
+}
+
+Teacup.handler UITextView, :textAlignment, :alignment { |view, alignment|
+  alignment = alignment.uitextalignment if alignment.is_a? Symbol
+  view.textAlignment = alignment
 }
