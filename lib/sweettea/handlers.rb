@@ -1,6 +1,6 @@
 # please organize by hierarchy and alphabetically, double spaces between classes
 
-Teacup.handler UIView, :backgroundColor { |view, color|
+Teacup.handler UIView, :backgroundColor, :background { |view, color|
   view.backgroundColor = color.uicolor
 }
 
