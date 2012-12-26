@@ -184,26 +184,6 @@ Teacup.handler UILabel, :baselineAdjustment, :baseline { |baseline|
   self.baselineAdjustment = baseline
 }
 
-Teacup.handler UIView, :shadow { |shadow|
-  {
-    opacity: :'shadowOpacity=',
-    radius: :'shadowRadius=',
-    offset: :'shadowOffset=',
-    color: :'shadowColor=',
-    path: :'shadowPath=',
-  }.each { |key, msg|
-    if value = shadow[key]
-      if key == :color
-        value = value.uicolor.CGColor
-      end
-      NSLog "Setting layer.#{msg} = #{value.inspect}" if self.respond_to? :debug and self.debug
-      self.layer.send(msg, value)
-      self.layer.masksToBounds = false
-      self.layer.shouldRasterize = true
-    end
-  }
-}
-
 
 ##|
 ##|  UINavigationBar
