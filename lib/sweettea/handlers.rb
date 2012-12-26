@@ -2,7 +2,7 @@
 
 # the Helpers
 #
-def get_image_and_rect(view, img)
+def get_image_and_rect(view, img, insets=nil)
   image = img.uiimage
   if not image
     NSLog("WARN: Could not find #{img.inspect}")
@@ -11,7 +11,14 @@ def get_image_and_rect(view, img)
   raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
 
   if view.frame.size.width == 0 and view.frame.size.height == 0
-    view.frame = [view.frame.origin, image.size]
+    new_frame = CGRect.new(view.frame.origin, image.size)
+    if insets
+      new_frame.origin.x -= insets[1]
+      new_frame.origin.y -= insets[0]
+      new_frame.size.width += insets[1] + insets[3]
+      new_frame.size.height += insets[0] + insets[2]
+    end
+    view.frame = new_frame
   end
   return image
 end
@@ -73,7 +80,7 @@ Teacup.handler UIButton, :normal, :image { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setImage(image, forState: UIControlStateNormal)
 }
@@ -82,7 +89,7 @@ Teacup.handler UIButton, :highlighted, :pushed { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setImage(image, forState: UIControlStateHighlighted)
 }
@@ -91,7 +98,7 @@ Teacup.handler UIButton, :disabled { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setImage(image, forState: UIControlStateDisabled)
 }
@@ -100,7 +107,7 @@ Teacup.handler UIButton, :bg_normal, :bg_image { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setBackgroundImage(image, forState: UIControlStateNormal)
 }
@@ -109,7 +116,7 @@ Teacup.handler UIButton, :bg_highlighted, :bg_pushed { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setBackgroundImage(image, forState: UIControlStateHighlighted)
 }
@@ -118,7 +125,7 @@ Teacup.handler UIButton, :bg_disabled { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setBackgroundImage(image, forState: UIControlStateDisabled)
 }
