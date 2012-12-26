@@ -143,6 +143,10 @@ Teacup.handler UIImageView, :image { |img|
 ##|
 ##|  UILabel
 ##|
+Teacup.handler UILabel, :shadowColor { |color|
+  self.shadowColor = color.uicolor
+}
+
 Teacup.alias UILabel, :autoshrink => :adjustsFontSizeToFitWidth
 Teacup.alias UILabel, :minimumSize => :minimumFontSize
 
