@@ -53,7 +53,7 @@ Teacup.handler UIActivityIndicatorView, :color { |color|
 }
 
 Teacup.handler UIActivityIndicatorView, :activityIndicatorViewStyle, :style { |style|
-  style = style.uiactivityindicatorstyle unless style.is_a?(Fixnum)
+  style = style.uiactivityindicatorstyle if style.is_a?(Symbol)
   self.activityIndicatorViewStyle = style
 }
 
