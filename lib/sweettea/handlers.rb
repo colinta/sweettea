@@ -58,6 +58,17 @@ Teacup.handler UIActivityIndicatorView, :activityIndicatorViewStyle, :style { |s
 }
 
 
+##|
+##|  UIButton
+##|
+Teacup.handler UIButton, :font { |font|
+  self.titleLabel.font = font.uifont
+}
+
+Teacup.handler UIButton, :textColor, :color { |color|
+  self.titleLabel.textColor = color.uicolor
+}
+
 Teacup.handler UIButton, :normal, :image { |img|
   if img == nil
     image = nil
