@@ -200,7 +200,7 @@ Teacup.handler UINavigationBar, :backgroundImage { |styles|
 ##|  UITextField
 ##|
 Teacup.handler UITextField, :keyboardType { |type|
-  type = type.uikeyboardtype unless type.is_a?(Fixnum)
+  type = type.uikeyboardtype if type.is_a?(Symbol)
   self.setKeyboardType(type)
 }
 
@@ -236,7 +236,7 @@ Teacup.handler UITextField, :background { |image|
 ##|  UITextView
 ##|
 Teacup.handler UITextView, :keyboardType { |type|
-  type = type.uikeyboardtype unless type.is_a?(Fixnum)
+  type = type.uikeyboardtype if type.is_a?(Symbol)
   self.setKeyboardType(type)
 }
 
