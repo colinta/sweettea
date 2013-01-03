@@ -186,6 +186,9 @@ Teacup.handler UILabel, :baselineAdjustment, :baseline { |baseline|
   self.baselineAdjustment = baseline
 }
 
+Teacup.handler UILabel, :sizeToFit { |truthy|
+  self.sizeToFit if truthy
+}
 
 ##|
 ##|  UINavigationBar
