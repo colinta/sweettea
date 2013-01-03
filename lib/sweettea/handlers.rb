@@ -202,6 +202,15 @@ Teacup.handler UINavigationBar, :backgroundImage { |styles|
 
 
 ##|
+##|  UITableView
+##|
+Teacup.handler UITableView, :separatorStyle, :separator { |separator|
+  separator = separator.uitablecellseparatorstyle if separator.is_a? Symbol
+  self.separatorStyle = separator
+}
+
+
+##|
 ##|  UITextField
 ##|
 Teacup.alias UITextView, :secure => :secureTextEntry
