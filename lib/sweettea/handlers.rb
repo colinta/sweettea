@@ -55,6 +55,25 @@ Teacup.handler UIView, :shadow { |shadow|
 }
 
 
+# CALayer
+#
+Teacup.handler CALayer, :backgroundColor, :background { |color|
+  if color.class.name != '__NSCFType'
+    color = color.uicolor unless color.is_a?(UIColor)
+    color = color.CGColor
+  end
+  self.backgroundColor = color
+}
+
+Teacup.handler CALayer, :borderColor, :border { |color|
+  if color.class.name != '__NSCFType'
+    color = color.uicolor unless color.is_a?(UIColor)
+    color = color.CGColor
+  end
+  self.borderColor = color
+}
+
+
 # UIActivityIndicatorView
 #
 Teacup.handler UIActivityIndicatorView, :color { |color|
