@@ -55,19 +55,20 @@ Teacup.handler UIView, :shadow { |shadow|
 }
 
 
+# UIActivityIndicatorView
+#
 Teacup.handler UIActivityIndicatorView, :color { |color|
   self.color = color.uicolor
 }
 
 Teacup.handler UIActivityIndicatorView, :activityIndicatorViewStyle, :style { |style|
-  style = style.uiactivityindicatorstyle if style.is_a?(Symbol)
+  style = style.uiactivityindicatorstyle unless style.is_a?(Fixnum)
   self.activityIndicatorViewStyle = style
 }
 
 
-##|
-##|  UIButton
-##|
+# UIButton
+#
 Teacup.handler UIButton, :font { |font|
   self.titleLabel.font = font.uifont
 }
@@ -131,31 +132,27 @@ Teacup.handler UIButton, :bg_disabled { |img|
 }
 
 
+# UIDatePicker
+#
 Teacup.handler UIDatePicker, :mode, :datePickerMode { |mode|
   mode = mode.uidatepickermode if mode.is_a? Symbol
   self.setDatePickerMode(mode)
 }
 
 
-Teacup.handler UIImageView, :image { |img|
-  if img == nil
-    image = nil
-  else
-    image = get_image_and_rect(self, img)
-  end
-  self.image = image
-}
+# UIImageView
+#
+# image is handled by UIView, so that it can be used by subclasses of UIView
+# that take an image
 
+# UILabel
+#
+Teacup.alias UILabel, :autoshrink => :adjustsFontSizeToFitWidth
+Teacup.alias UILabel, :minimumSize => :minimumFontSize
 
-##|
-##|  UILabel
-##|
 Teacup.handler UILabel, :shadowColor { |color|
   self.shadowColor = color.uicolor
 }
-
-Teacup.alias UILabel, :autoshrink => :adjustsFontSizeToFitWidth
-Teacup.alias UILabel, :minimumSize => :minimumFontSize
 
 Teacup.handler UILabel, :textColor, :color { |color|
   self.textColor = color.uicolor
@@ -185,9 +182,8 @@ Teacup.handler UILabel, :baselineAdjustment, :baseline { |baseline|
 }
 
 
-##|
-##|  UINavigationBar
-##|
+# UINavigationBar
+#
 Teacup.handler UINavigationBar, :backgroundImage { |styles|
   styles.each do |metric, image|
     metric = metric.uibarmetrics if metric.is_a? Symbol
@@ -196,13 +192,12 @@ Teacup.handler UINavigationBar, :backgroundImage { |styles|
 }
 
 
-##|
-##|  UITextField
-##|
+# UITextField
+#
 Teacup.alias UITextView, :secure => :secureTextEntry
 
 Teacup.handler UITextField, :keyboardType { |type|
-  type = type.uikeyboardtype if type.is_a?(Symbol)
+  type = type.uikeyboardtype unless type.is_a?(Fixnum)
   self.setKeyboardType(type)
 }
 
@@ -234,13 +229,12 @@ Teacup.handler UITextField, :background { |image|
 }
 
 
-##|
-##|  UITextView
-##|
+# UITextView
+#
 Teacup.alias UITextView, :secure => :secureTextEntry
 
 Teacup.handler UITextView, :keyboardType { |type|
-  type = type.uikeyboardtype if type.is_a?(Symbol)
+  type = type.uikeyboardtype unless type.is_a?(Fixnum)
   self.setKeyboardType(type)
 }
 
