@@ -43,7 +43,7 @@ Teacup.handler UIView, :shadow { |shadow|
     path: :'shadowPath=',
   }.each { |key, msg|
     if value = shadow[key]
-      if key == :color
+      if key == :color && CFGetTypeID(value) != CGColorGetTypeID()
         value = value.uicolor.CGColor
       end
       NSLog "Setting layer.#{msg} = #{value.inspect}" if self.respond_to? :debug and self.debug
@@ -70,9 +70,8 @@ Teacup.handler UIView, :image { |img|
 # CALayer
 #
 Teacup.handler CALayer, :backgroundColor, :background { |color|
-  if color.class.name != '__NSCFType'
-    color = color.uicolor unless color.is_a?(UIColor)
-    color = color.CGColor
+  if CFGetTypeID(color) != CGColorGetTypeID()
+    color = color.uicolor.CGColor
   end
   self.backgroundColor = color
 }
