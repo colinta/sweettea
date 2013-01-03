@@ -2,7 +2,7 @@
 
 # the Helpers
 #
-def get_image_and_rect(view, img)
+def get_image_and_rect(view, img, insets=nil)
   image = img.uiimage
   if not image
     NSLog("WARN: Could not find #{img.inspect}")
@@ -11,7 +11,14 @@ def get_image_and_rect(view, img)
   raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
 
   if view.frame.size.width == 0 and view.frame.size.height == 0
-    view.frame = [view.frame.origin, image.size]
+    new_frame = CGRect.new(view.frame.origin, image.size)
+    if insets
+      new_frame.origin.x -= insets[1]
+      new_frame.origin.y -= insets[0]
+      new_frame.size.width += insets[1] + insets[3]
+      new_frame.size.height += insets[0] + insets[2]
+    end
+    view.frame = new_frame
   end
   return image
 end
@@ -53,16 +60,27 @@ Teacup.handler UIActivityIndicatorView, :color { |color|
 }
 
 Teacup.handler UIActivityIndicatorView, :activityIndicatorViewStyle, :style { |style|
-  style = style.uiactivityindicatorstyle unless style.is_a?(Fixnum)
+  style = style.uiactivityindicatorstyle if style.is_a?(Symbol)
   self.activityIndicatorViewStyle = style
 }
 
+
+##|
+##|  UIButton
+##|
+Teacup.handler UIButton, :font { |font|
+  self.titleLabel.font = font.uifont
+}
+
+Teacup.handler UIButton, :textColor, :color { |color|
+  self.titleLabel.textColor = color.uicolor
+}
 
 Teacup.handler UIButton, :normal, :image { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setImage(image, forState: UIControlStateNormal)
 }
@@ -71,7 +89,7 @@ Teacup.handler UIButton, :highlighted, :pushed { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setImage(image, forState: UIControlStateHighlighted)
 }
@@ -80,7 +98,7 @@ Teacup.handler UIButton, :disabled { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setImage(image, forState: UIControlStateDisabled)
 }
@@ -89,7 +107,7 @@ Teacup.handler UIButton, :bg_normal, :bg_image { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setBackgroundImage(image, forState: UIControlStateNormal)
 }
@@ -98,7 +116,7 @@ Teacup.handler UIButton, :bg_highlighted, :bg_pushed { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setBackgroundImage(image, forState: UIControlStateHighlighted)
 }
@@ -107,7 +125,7 @@ Teacup.handler UIButton, :bg_disabled { |img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setBackgroundImage(image, forState: UIControlStateDisabled)
 }
@@ -132,6 +150,10 @@ Teacup.handler UIImageView, :image { |img|
 ##|
 ##|  UILabel
 ##|
+Teacup.handler UILabel, :shadowColor { |color|
+  self.shadowColor = color.uicolor
+}
+
 Teacup.alias UILabel, :autoshrink => :adjustsFontSizeToFitWidth
 Teacup.alias UILabel, :minimumSize => :minimumFontSize
 
@@ -162,26 +184,6 @@ Teacup.handler UILabel, :baselineAdjustment, :baseline { |baseline|
   self.baselineAdjustment = baseline
 }
 
-Teacup.handler UIView, :shadow { |shadow|
-  {
-    opacity: :'shadowOpacity=',
-    radius: :'shadowRadius=',
-    offset: :'shadowOffset=',
-    color: :'shadowColor=',
-    path: :'shadowPath=',
-  }.each { |key, msg|
-    if value = shadow[key]
-      if key == :color
-        value = value.uicolor.CGColor
-      end
-      NSLog "Setting layer.#{msg} = #{value.inspect}" if self.respond_to? :debug and self.debug
-      self.layer.send(msg, value)
-      self.layer.masksToBounds = false
-      self.layer.shouldRasterize = true
-    end
-  }
-}
-
 
 ##|
 ##|  UINavigationBar
@@ -197,8 +199,10 @@ Teacup.handler UINavigationBar, :backgroundImage { |styles|
 ##|
 ##|  UITextField
 ##|
+Teacup.alias UITextView, :secure => :secureTextEntry
+
 Teacup.handler UITextField, :keyboardType { |type|
-  type = type.uikeyboardtype unless type.is_a?(Fixnum)
+  type = type.uikeyboardtype if type.is_a?(Symbol)
   self.setKeyboardType(type)
 }
 
@@ -233,8 +237,10 @@ Teacup.handler UITextField, :background { |image|
 ##|
 ##|  UITextView
 ##|
+Teacup.alias UITextView, :secure => :secureTextEntry
+
 Teacup.handler UITextView, :keyboardType { |type|
-  type = type.uikeyboardtype unless type.is_a?(Fixnum)
+  type = type.uikeyboardtype if type.is_a?(Symbol)
   self.setKeyboardType(type)
 }
 
