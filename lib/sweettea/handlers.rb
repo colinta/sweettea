@@ -54,6 +54,18 @@ Teacup.handler UIView, :shadow { |shadow|
   }
 }
 
+# you would think this should be on UIImageView, but you can't subclass
+# UIImageView, and any subclass of UIView that has an image will find this
+# handler helpful.
+Teacup.handler UIView, :image { |img|
+  if img == nil
+    image = nil
+  else
+    image = get_image_and_rect(self, img)
+  end
+  self.image = image
+}
+
 
 Teacup.handler UIActivityIndicatorView, :color { |color|
   self.color = color.uicolor
@@ -134,16 +146,6 @@ Teacup.handler UIButton, :bg_disabled { |img|
 Teacup.handler UIDatePicker, :mode, :datePickerMode { |mode|
   mode = mode.uidatepickermode if mode.is_a? Symbol
   self.setDatePickerMode(mode)
-}
-
-
-Teacup.handler UIImageView, :image { |img|
-  if img == nil
-    image = nil
-  else
-    image = get_image_and_rect(self, img)
-  end
-  self.image = image
 }
 
 
