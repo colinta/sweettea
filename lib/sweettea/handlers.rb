@@ -54,6 +54,18 @@ Teacup.handler UIView, :shadow { |shadow|
   }
 }
 
+# you would think this should be on UIImageView, but you can't subclass
+# UIImageView, and any subclass of UIView that has an image will find this
+# handler helpful.
+Teacup.handler UIView, :image { |img|
+  if img == nil
+    image = nil
+  else
+    image = get_image_and_rect(self, img)
+  end
+  self.image = image
+}
+
 
 # CALayer
 #
@@ -200,6 +212,9 @@ Teacup.handler UILabel, :baselineAdjustment, :baseline { |baseline|
   self.baselineAdjustment = baseline
 }
 
+Teacup.handler UILabel, :sizeToFit { |truthy|
+  self.sizeToFit if truthy
+}
 
 # UINavigationBar
 #
@@ -211,9 +226,22 @@ Teacup.handler UINavigationBar, :backgroundImage { |styles|
 }
 
 
+# UITableView
+#
+Teacup.handler UITableView, :separatorStyle, :separator { |separator|
+  separator = separator.uitablecellseparatorstyle if separator.is_a? Symbol
+  self.separatorStyle = separator
+}
+
+
 # UITextField
 #
 Teacup.alias UITextView, :secure => :secureTextEntry
+
+Teacup.handler UITableView, :separatorStyle, :separator { |separator|
+  separator = separator.uitablecellseparatorstyle if separator.is_a? Symbol
+  self.separatorStyle = separator
+}
 
 Teacup.handler UITextField, :keyboardType { |type|
   type = type.uikeyboardtype unless type.is_a?(Fixnum)
@@ -223,6 +251,10 @@ Teacup.handler UITextField, :keyboardType { |type|
 Teacup.handler UITextField, :returnKeyType, :returnKey, :returnkey { |type|
   type = type.uireturnkey if type.is_a? Symbol
   self.setReturnKeyType(type)
+}
+
+Teacup.handler UITextField, :secure { |is_secure|
+  self.secureTextEntry = is_secure
 }
 
 Teacup.handler UITextField, :textColor, :color { |color|
@@ -260,6 +292,10 @@ Teacup.handler UITextView, :keyboardType { |type|
 Teacup.handler UITextView, :returnKeyType, :returnKey, :returnkey { |type|
   type = type.uireturnkey if type.is_a? Symbol
   self.setReturnKeyType(type)
+}
+
+Teacup.handler UITextView, :secure { |is_secure|
+  self.secureTextEntry = is_secure
 }
 
 Teacup.handler UITextView, :textColor, :color { |color|
