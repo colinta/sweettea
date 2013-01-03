@@ -225,6 +225,10 @@ Teacup.handler UITextField, :returnKeyType, :returnKey, :returnkey { |type|
   self.setReturnKeyType(type)
 }
 
+Teacup.handler UITextField, :secure { |is_secure|
+  self.secureTextEntry = is_secure
+}
+
 Teacup.handler UITextField, :textColor, :color { |color|
   self.textColor = color.uicolor
 }
@@ -261,6 +265,10 @@ Teacup.handler UITextView, :keyboardType { |type|
 Teacup.handler UITextView, :returnKeyType, :returnKey, :returnkey { |type|
   type = type.uireturnkey if type.is_a? Symbol
   self.setReturnKeyType(type)
+}
+
+Teacup.handler UITextView, :secure { |is_secure|
+  self.secureTextEntry = is_secure
 }
 
 Teacup.handler UITextView, :textColor, :color { |color|
