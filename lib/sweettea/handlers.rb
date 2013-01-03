@@ -22,6 +22,11 @@ Teacup.handler UIView, :backgroundColor, :background { |color|
   self.backgroundColor = color.uicolor
 }
 
+Teacup.handler UIView, :contentMode { |mode|
+  mode = mode.uicontentmode if mode.is_a?(Symbol)
+  self.contentMode = mode
+}
+
 Teacup.handler UIView, :shadow { |shadow|
   {
     opacity: :'shadowOpacity=',
