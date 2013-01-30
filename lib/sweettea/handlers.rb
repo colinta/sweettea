@@ -54,6 +54,10 @@ Teacup.handler UIView, :shadow { |shadow|
   }
 }
 
+Teacup.handler UIView, :sizeToFit { |truthy|
+  self.sizeToFit if truthy
+}
+
 # you would think this should be on UIImageView, but you can't subclass
 # UIImageView, and any subclass of UIView that has an image will find this
 # handler helpful.
@@ -125,6 +129,15 @@ Teacup.handler UIButton, :highlighted, :pushed { |img|
   self.setImage(image, forState: UIControlStateHighlighted)
 }
 
+Teacup.handler UIButton, :selected { |img|
+  if img == nil
+    image = nil
+  else
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
+  end
+  self.setImage(image, forState: UIControlStateSelected)
+}
+
 Teacup.handler UIButton, :disabled { |img|
   if img == nil
     image = nil
@@ -150,6 +163,15 @@ Teacup.handler UIButton, :bg_highlighted, :bg_pushed { |img|
     image = get_image_and_rect(self, img, self.contentEdgeInsets)
   end
   self.setBackgroundImage(image, forState: UIControlStateHighlighted)
+}
+
+Teacup.handler UIButton, :bg_selected { |img|
+  if img == nil
+    image = nil
+  else
+    image = get_image_and_rect(self, img, self.contentEdgeInsets)
+  end
+  self.setBackgroundImage(image, forState: UIControlStateSelected)
 }
 
 Teacup.handler UIButton, :bg_disabled { |img|
@@ -209,10 +231,6 @@ Teacup.handler UILabel, :textAlignment, :alignment { |alignment|
 Teacup.handler UILabel, :baselineAdjustment, :baseline { |baseline|
   baseline = baseline.uibaselineadjustment if baseline.is_a? Symbol
   self.baselineAdjustment = baseline
-}
-
-Teacup.handler UILabel, :sizeToFit { |truthy|
-  self.sizeToFit if truthy
 }
 
 # UINavigationBar
