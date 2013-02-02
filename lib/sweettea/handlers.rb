@@ -128,6 +128,7 @@ module Sweettea
         target.setImage(value, forState:actual_state)
       else
         NSLog "SWEETTEA WARNING: Can't apply #{property.inspect} to #{target.inspect} forState:#{state.inspect}"
+      end
     end
   end
 end
