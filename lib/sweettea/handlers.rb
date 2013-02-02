@@ -107,6 +107,47 @@ Teacup.handler UIButton, :font { |font|
   self.titleLabel.font = font.uifont
 }
 
+module Sweettea
+  module_function
+
+  def uibutton_state_handler(target, properties, state)
+    actual_state = state.is_a?(Symbol) ? state.uicontrolstate : state
+    properties.each do |property, value|
+      case property
+      when :title
+        target.setTitle(value, forState:actual_state)
+      when :attributed
+        target.setAttributedTitle(value, forState:actual_state)
+      when :color
+        target.setTitleColor(value, forState:actual_state)
+      when :shadow
+        target.setTitleShadowColor(value, forState:actual_state)
+      when :bg_image
+        target.setBackgroundImage(value, forState:actual_state)
+      when :image
+        target.setImage(value, forState:actual_state)
+      else
+        NSLog "SWEETTEA WARNING: Can't apply #{property.inspect} to #{target.inspect} forState:#{state.inspect}"
+    end
+  end
+end
+
+Teacup.handler UIButton, :normal { |values|
+  Sweettea.uibutton_state_handler(self, values, :normal)
+}
+
+Teacup.handler UIButton, :disabled { |values|
+  Sweettea.uibutton_state_handler(self, values, :disabled)
+}
+
+Teacup.handler UIButton, :selected { |values|
+  Sweettea.uibutton_state_handler(self, values, :selected)
+}
+
+Teacup.handler UIButton, :highlighted { |values|
+  Sweettea.uibutton_state_handler(self, values, :highlighted)
+}
+
 Teacup.handler UIButton, :textColor, :color { |color|
   self.titleLabel.textColor = color.uicolor
 }
