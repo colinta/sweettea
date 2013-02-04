@@ -115,7 +115,7 @@ module Sweettea
     properties.each do |property, value|
       if property == :image || property == :bg_image
         if value != nil
-          value = get_image_and_rect(self, value, self.contentEdgeInsets)
+          value = get_image_and_rect(target, value, target.contentEdgeInsets)
         end
       end
 
