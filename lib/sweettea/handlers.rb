@@ -114,7 +114,7 @@ module Sweettea
     actual_state = state.is_a?(Symbol) ? state.uicontrolstate : state
     properties.each do |property, value|
       if property == :image || property == :bg_image
-        if value != nil
+        if value
           value = get_image_and_rect(target, value, target.contentEdgeInsets)
         end
       end
@@ -172,42 +172,42 @@ Teacup.handler UIButton, :highlighted { |values|
 }
 
 Teacup.handler UIButton, :textColor, :color { |color|
-  self.titleLabel.textColor = color.uicolor
+  Sweettea.uibutton_state_handler(self, {normal: { color: color }}, :selected)
 }
 
 Teacup.handler UIButton, :image { |img|
-  NSLog("SWEETTEA WARNING: The :image handler is deprecated in favor of normal: { image: img }")
-  Teacup.apply(self, normal: { image: img })
+  # this one is too handy to be deprecated.
+  Teacup.apply(self, :normal, {image: img})
+}
+
+Teacup.handler UIButton, :bg_image { |img|
+  # this one is too handy to be deprecated.
+  Teacup.apply(self, :normal, {bg_image: img})
 }
 
 Teacup.handler UIButton, :pushed { |img|
   NSLog("SWEETTEA WARNING: The :pushed handler is deprecated in favor of highlighted: { image: img }")
-  Teacup.apply(self, highlighted: { image: img })
-}
-
-Teacup.handler UIButton, :bg_image { |img|
-  NSLog("SWEETTEA WARNING: The :bg_image handler is deprecated in favor of normal: { bg_image: img }")
-  Teacup.apply(self, normal: { bg_image: img })
+  Teacup.apply(self, :highlighted, {image: img})
 }
 
 Teacup.handler UIButton, :bg_pushed { |img|
   NSLog("SWEETTEA WARNING: The :bg_pushed handler is deprecated in favor of highlighted: { bg_image: img }")
-  Teacup.apply(self, highlighted: { bg_image: img })
+  Teacup.apply(self, :highlighted, {bg_image: img})
 }
 
 Teacup.handler UIButton, :bg_highlighted { |img|
   NSLog("SWEETTEA WARNING: The :bg_highlighted handler is deprecated in favor of highlighted: { bg_image: img }")
-  Teacup.apply(self, highlighted: { bg_image: img })
+  Teacup.apply(self, :highlighted, {bg_image: img})
 }
 
 Teacup.handler UIButton, :bg_selected { |img|
   NSLog("SWEETTEA WARNING: The :bg_selected handler is deprecated in favor of selected: { bg_image: img }")
-  Teacup.apply(self, selected: { bg_image: img })
+  Teacup.apply(self, :selected, {bg_image: img})
 }
 
 Teacup.handler UIButton, :bg_disabled { |img|
   NSLog("SWEETTEA WARNING: The :bg_disabled handler is deprecated in favor of disabled: { bg_image: img }")
-  Teacup.apply(self, disabled: { bg_image: img })
+  Teacup.apply(self, :disabled, {bg_image: img})
 }
 
 
