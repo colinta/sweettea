@@ -95,6 +95,14 @@ Teacup.handler UIActivityIndicatorView, :color { |color|
   self.color = color.uicolor
 }
 
+Teacup.handler UIActivityIndicatorView, :animating, :isAnimating { |animating|
+  if animating
+    self.startAnimating
+  else
+    self.stopAnimating
+  end
+}
+
 Teacup.handler UIActivityIndicatorView, :activityIndicatorViewStyle, :style { |style|
   style = style.uiactivityindicatorstyle unless style.is_a?(Fixnum)
   self.activityIndicatorViewStyle = style
