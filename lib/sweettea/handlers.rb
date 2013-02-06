@@ -125,13 +125,13 @@ module Sweettea
       when :attributed
         target.setAttributedTitle(value, forState:actual_state)
       when :color
-        target.setTitleColor(value, forState:actual_state)
+        target.setTitleColor(value.uicolor, forState:actual_state)
       when :shadow
-        target.setTitleShadowColor(value, forState:actual_state)
+        target.setTitleShadowColor(value.uicolor, forState:actual_state)
       when :bg_image
-        target.setBackgroundImage(value, forState:actual_state)
+        target.setBackgroundImage(value.uiimage, forState:actual_state)
       when :image
-        target.setImage(value, forState:actual_state)
+        target.setImage(value.uiimage, forState:actual_state)
       else
         NSLog "SWEETTEA WARNING: Can't apply #{property.inspect} to #{target.inspect} forState:#{state.inspect}"
       end
