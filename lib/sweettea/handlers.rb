@@ -49,7 +49,6 @@ Teacup.handler UIView, :shadow { |shadow|
       NSLog "Setting layer.#{msg} = #{value.inspect}" if self.respond_to? :debug and self.debug
       self.layer.send(msg, value)
       self.layer.masksToBounds = false
-      self.layer.shouldRasterize = true
     end
   }
 }
