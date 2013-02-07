@@ -149,7 +149,7 @@ end
 Teacup.handler UIButton, :normal { |values|
   unless values.is_a?(Hash)
     NSLog("SWEETTEA WARNING: The {normal: image} handler is deprecated in favor of normal: { image: image }")
-    values = { normal: values }
+    values = { image: values }
   end
   Sweettea.uibutton_state_handler(self, values, :normal)
 }
@@ -157,7 +157,7 @@ Teacup.handler UIButton, :normal { |values|
 Teacup.handler UIButton, :disabled { |values|
   unless values.is_a?(Hash)
     NSLog("SWEETTEA WARNING: The {disabled: image} handler is deprecated in favor of disabled: { image: image }")
-    values = { disabled: values }
+    values = { image: values }
   end
   Sweettea.uibutton_state_handler(self, values, :disabled)
 }
@@ -165,7 +165,7 @@ Teacup.handler UIButton, :disabled { |values|
 Teacup.handler UIButton, :selected { |values|
   unless values.is_a?(Hash)
     NSLog("SWEETTEA WARNING: The {selected: image} handler is deprecated in favor of selected: { image: image }")
-    values = { selected: values }
+    values = { image: values }
   end
   Sweettea.uibutton_state_handler(self, values, :selected)
 }
@@ -173,7 +173,7 @@ Teacup.handler UIButton, :selected { |values|
 Teacup.handler UIButton, :highlighted { |values|
   unless values.is_a?(Hash)
     NSLog("SWEETTEA WARNING: The {highlighted: image} handler is deprecated in favor of highlighted: { image: image }")
-    values = { highlighted: values }
+    values = { image: values }
   end
   Sweettea.uibutton_state_handler(self, values, :highlighted)
 }
