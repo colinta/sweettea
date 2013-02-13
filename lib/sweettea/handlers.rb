@@ -143,7 +143,7 @@ module Sweettea
 
       case property
       when :title
-        target.setTitle(value, forState:actual_state)
+        target.setTitle(value.localized, forState:actual_state)
       when :attributed
         target.setAttributedTitle(value, forState:actual_state)
       when :color
