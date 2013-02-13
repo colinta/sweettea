@@ -34,6 +34,21 @@ Teacup.handler UIView, :contentMode { |mode|
   self.contentMode = mode
 }
 
+Teacup.handler UIView, :autoresizingMask, :autoresizing { |masks|
+  if masks.is_a? Enumerable
+    actual_mask = 0
+    masks.each do |mask|
+      mask = mask.uiautoresizemask if mask.is_a? Symbol
+      actual_mask |= mask
+    end
+  elsif masks.is_a? Symbol
+    actual_mask = masks.uiautoresizemask
+  else
+    actual_mask = masks
+  end
+  self.autoresizingMask = actual_mask
+}
+
 Teacup.handler UIView, :shadow { |shadow|
   {
     opacity: :'shadowOpacity=',
