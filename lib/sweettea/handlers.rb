@@ -88,14 +88,14 @@ Teacup.handler UIView, :image { |img|
 # CALayer
 #
 Teacup.handler CALayer, :backgroundColor, :background { |color|
-  if CFGetTypeID(color) != CGColorGetTypeID()
+  if color && CFGetTypeID(color) != CGColorGetTypeID()
     color = color.uicolor.CGColor
   end
   self.backgroundColor = color
 }
 
 Teacup.handler CALayer, :borderColor, :border { |color|
-  if color.class.name != '__NSCFType'
+  if color && CFGetTypeID(color) != CGColorGetTypeID()
     color = color.uicolor unless color.is_a?(UIColor)
     color = color.CGColor
   end
@@ -147,13 +147,13 @@ module Sweettea
       when :attributed
         target.setAttributedTitle(value, forState:actual_state)
       when :color
-        target.setTitleColor(value.uicolor, forState:actual_state)
+        target.setTitleColor(value && value.uicolor, forState:actual_state)
       when :shadow
-        target.setTitleShadowColor(value.uicolor, forState:actual_state)
+        target.setTitleShadowColor(value && value.uicolor, forState:actual_state)
       when :bg_image
-        target.setBackgroundImage(value.uiimage, forState:actual_state)
+        target.setBackgroundImage(value && value.uiimage, forState:actual_state)
       when :image
-        target.setImage(value.uiimage, forState:actual_state)
+        target.setImage(value && value.uiimage, forState:actual_state)
       else
         NSLog "SWEETTEA WARNING: Can't apply #{property.inspect} to #{target.inspect} forState:#{state.inspect}"
       end
