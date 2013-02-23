@@ -3,10 +3,12 @@
 # the Helpers
 #
 def get_image_and_rect(view, img, insets=nil)
+  return nil unless img
+
   image = img.uiimage
-  if not image
+  if img && ! image
     NSLog("WARN: Could not find #{img.inspect}")
-    return
+    return nil
   end
   raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
 
@@ -126,7 +128,7 @@ Teacup.handler UIActivityIndicatorView, :activityIndicatorViewStyle, :style { |s
 # UIButton
 #
 Teacup.handler UIButton, :font { |font|
-  self.titleLabel.font = font.uifont
+  self.titleLabel.font = font && font.uifont
 }
 
 module Sweettea
@@ -260,7 +262,7 @@ Teacup.handler UILabel, :textColor, :color { |color|
 }
 
 Teacup.handler UILabel, :font { |font|
-  self.font = font.uifont
+  self.font = font && font.uifont
 }
 
 Teacup.handler UILabel, :highlightedTextColor, :highlightedColor { |color|
@@ -287,7 +289,7 @@ Teacup.handler UILabel, :baselineAdjustment, :baseline { |baseline|
 Teacup.handler UINavigationBar, :backgroundImage { |styles|
   styles.each do |metric, image|
     metric = metric.uibarmetrics if metric.is_a? Symbol
-    self.setBackgroundImage(image.uiimage, forBarMetrics:metric)
+    self.setBackgroundImage(image && image.uiimage, forBarMetrics:metric)
   end
 }
 
@@ -328,7 +330,7 @@ Teacup.handler UITextField, :textColor, :color { |color|
 }
 
 Teacup.handler UITextField, :font { |font|
-  self.font = font.uifont
+  self.font = font && font.uifont
 }
 
 Teacup.handler UITextField, :textAlignment, :alignment { |alignment|
@@ -342,7 +344,7 @@ Teacup.handler UITextField, :borderStyle, :border { |border|
 }
 
 Teacup.handler UITextField, :background { |image|
-  self.background = image.uiimage
+  self.background = image && image.uiimage
 }
 
 
@@ -369,7 +371,7 @@ Teacup.handler UITextView, :textColor, :color { |color|
 }
 
 Teacup.handler UITextView, :font { |font|
-  self.font = font.uifont
+  self.font = font && font.uifont
 }
 
 Teacup.handler UITextView, :textAlignment, :alignment { |alignment|
