@@ -159,7 +159,7 @@ module Sweettea
       when :image
         target.setImage(value && value.uiimage, forState:actual_state)
       else
-        NSLog "SWEETTEA WARNING: Can't apply #{property.inspect} to #{target.inspect} forState:#{state.inspect}"
+        NSLog "SWEETTEA WARNING: Can't apply #{value.inspect} to #{property.inspect} forState: #{state.inspect} to #{target.inspect}"
       end
     end
   end
