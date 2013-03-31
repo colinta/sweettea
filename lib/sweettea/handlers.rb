@@ -198,42 +198,43 @@ Teacup.handler UIButton, :highlighted { |values|
 }
 
 Teacup.handler UIButton, :textColor, :color { |color|
-  Sweettea.uibutton_state_handler(self, {normal: { color: color }}, :selected)
+  # this one is too handy to be deprecated.
+  Sweettea.uibutton_state_handler(self, { color: color }, :normal)
 }
 
 Teacup.handler UIButton, :image { |img|
   # this one is too handy to be deprecated.
-  Teacup.apply(self, :normal, {image: img})
+  Sweettea.uibutton_state_handler(self, { image: img }, :normal)
 }
 
 Teacup.handler UIButton, :bg_image { |img|
   # this one is too handy to be deprecated.
-  Teacup.apply(self, :normal, {bg_image: img})
+  Sweettea.uibutton_state_handler(self, { bg_image: img }, :normal)
 }
 
 Teacup.handler UIButton, :pushed { |img|
   NSLog("SWEETTEA WARNING: The :pushed handler is deprecated in favor of highlighted: { image: img }")
-  Teacup.apply(self, :highlighted, {image: img})
+  Sweettea.uibutton_state_handler(self, { image: img }, :highlighted)
 }
 
 Teacup.handler UIButton, :bg_pushed { |img|
   NSLog("SWEETTEA WARNING: The :bg_pushed handler is deprecated in favor of highlighted: { bg_image: img }")
-  Teacup.apply(self, :highlighted, {bg_image: img})
+  Sweettea.uibutton_state_handler(self, { bg_image: img }, :highlighted)
 }
 
 Teacup.handler UIButton, :bg_highlighted { |img|
   NSLog("SWEETTEA WARNING: The :bg_highlighted handler is deprecated in favor of highlighted: { bg_image: img }")
-  Teacup.apply(self, :highlighted, {bg_image: img})
+  Sweettea.uibutton_state_handler(self, { bg_image: img }, :highlighted)
 }
 
 Teacup.handler UIButton, :bg_selected { |img|
   NSLog("SWEETTEA WARNING: The :bg_selected handler is deprecated in favor of selected: { bg_image: img }")
-  Teacup.apply(self, :selected, {bg_image: img})
+  Sweettea.uibutton_state_handler(self, { bg_image: img }, :selected)
 }
 
 Teacup.handler UIButton, :bg_disabled { |img|
   NSLog("SWEETTEA WARNING: The :bg_disabled handler is deprecated in favor of disabled: { bg_image: img }")
-  Teacup.apply(self, :disabled, {bg_image: img})
+  Sweettea.uibutton_state_handler(self, { bg_image: img }, :disabled)
 }
 
 
