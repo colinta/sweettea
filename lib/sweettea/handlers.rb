@@ -31,6 +31,8 @@ Teacup.handler UIView, :backgroundColor, :background { |color|
   self.backgroundColor = color.uicolor
 }
 
+Teacup.alias UIView, :clips => :clipsToBounds
+
 Teacup.handler UIView, :contentMode { |mode|
   mode = mode.uicontentmode if mode.is_a?(Symbol)
   self.contentMode = mode
