@@ -313,7 +313,7 @@ Teacup.handler UITableView, :separatorStyle, :separator { |separator|
   self.separatorStyle = separator
 }
 
-Teacup.handler UITextField, :keyboardType { |type|
+Teacup.handler UITextField, :keyboardType, :keyboard { |type|
   type = type.uikeyboardtype unless type.is_a?(Fixnum)
   self.setKeyboardType(type)
 }
@@ -354,7 +354,7 @@ Teacup.handler UITextField, :background { |image|
 #
 Teacup.alias UITextView, :secure => :secureTextEntry
 
-Teacup.handler UITextView, :keyboardType { |type|
+Teacup.handler UITextView, :keyboardType, :keyboard { |type|
   type = type.uikeyboardtype unless type.is_a?(Fixnum)
   self.setKeyboardType(type)
 }
