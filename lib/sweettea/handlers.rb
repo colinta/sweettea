@@ -31,6 +31,8 @@ Teacup.handler UIView, :backgroundColor, :background { |color|
   self.backgroundColor = color.uicolor
 }
 
+Teacup.alias UIView, :clips => :clipsToBounds
+
 Teacup.handler UIView, :contentMode { |mode|
   mode = mode.uicontentmode if mode.is_a?(Symbol)
   self.contentMode = mode
@@ -163,7 +165,7 @@ module Sweettea
       when :image
         target.setImage(value && value.uiimage, forState:actual_state)
       else
-        NSLog "SWEETTEA WARNING: Can't apply #{property.inspect} to #{target.inspect} forState:#{state.inspect}"
+        NSLog "SWEETTEA WARNING: Can't apply #{value.inspect} to #{property.inspect} forState: #{state.inspect} to #{target.inspect}"
       end
     end
   end
@@ -202,42 +204,43 @@ Teacup.handler UIButton, :highlighted { |values|
 }
 
 Teacup.handler UIButton, :textColor, :color { |color|
-  Sweettea.uibutton_state_handler(self, {normal: { color: color }}, :selected)
+  # this one is too handy to be deprecated.
+  Sweettea.uibutton_state_handler(self, { color: color }, :normal)
 }
 
 Teacup.handler UIButton, :image { |img|
   # this one is too handy to be deprecated.
-  Teacup.apply(self, :normal, {image: img})
+  Sweettea.uibutton_state_handler(self, { image: img }, :normal)
 }
 
 Teacup.handler UIButton, :bg_image { |img|
   # this one is too handy to be deprecated.
-  Teacup.apply(self, :normal, {bg_image: img})
+  Sweettea.uibutton_state_handler(self, { bg_image: img }, :normal)
 }
 
 Teacup.handler UIButton, :pushed { |img|
   NSLog("SWEETTEA WARNING: The :pushed handler is deprecated in favor of highlighted: { image: img }")
-  Teacup.apply(self, :highlighted, {image: img})
+  Sweettea.uibutton_state_handler(self, { image: img }, :highlighted)
 }
 
 Teacup.handler UIButton, :bg_pushed { |img|
   NSLog("SWEETTEA WARNING: The :bg_pushed handler is deprecated in favor of highlighted: { bg_image: img }")
-  Teacup.apply(self, :highlighted, {bg_image: img})
+  Sweettea.uibutton_state_handler(self, { bg_image: img }, :highlighted)
 }
 
 Teacup.handler UIButton, :bg_highlighted { |img|
   NSLog("SWEETTEA WARNING: The :bg_highlighted handler is deprecated in favor of highlighted: { bg_image: img }")
-  Teacup.apply(self, :highlighted, {bg_image: img})
+  Sweettea.uibutton_state_handler(self, { bg_image: img }, :highlighted)
 }
 
 Teacup.handler UIButton, :bg_selected { |img|
   NSLog("SWEETTEA WARNING: The :bg_selected handler is deprecated in favor of selected: { bg_image: img }")
-  Teacup.apply(self, :selected, {bg_image: img})
+  Sweettea.uibutton_state_handler(self, { bg_image: img }, :selected)
 }
 
 Teacup.handler UIButton, :bg_disabled { |img|
   NSLog("SWEETTEA WARNING: The :bg_disabled handler is deprecated in favor of disabled: { bg_image: img }")
-  Teacup.apply(self, :disabled, {bg_image: img})
+  Sweettea.uibutton_state_handler(self, { bg_image: img }, :disabled)
 }
 
 
@@ -317,7 +320,7 @@ Teacup.handler UITableView, :separatorStyle, :separator { |separator|
   self.separatorStyle = separator
 }
 
-Teacup.handler UITextField, :keyboardType { |type|
+Teacup.handler UITextField, :keyboardType, :keyboard { |type|
   type = type.uikeyboardtype unless type.is_a?(Fixnum)
   self.setKeyboardType(type)
 }
@@ -358,7 +361,7 @@ Teacup.handler UITextField, :background { |image|
 #
 Teacup.alias UITextView, :secure => :secureTextEntry
 
-Teacup.handler UITextView, :keyboardType { |type|
+Teacup.handler UITextView, :keyboardType, :keyboard { |type|
   type = type.uikeyboardtype unless type.is_a?(Fixnum)
   self.setKeyboardType(type)
 }
