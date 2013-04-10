@@ -131,6 +131,12 @@ Teacup.handler UIButton, :font { |font|
   self.titleLabel.font = font && font.uifont
 }
 
+# for backwards compatibility - Teacup defines this *without* the UIColor
+# coercion.
+Teacup.handler UIButton, :titleColor { |target, color|
+  target.setTitleColor(color.uicolor, forState: UIControlStateNormal)
+}
+
 module Sweettea
   module_function
 
