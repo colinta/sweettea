@@ -27,18 +27,18 @@ end
 
 # the Views
 #
-Teacup.handler UIView, :backgroundColor, :background { |color|
-  self.backgroundColor = color.uicolor
+Teacup.handler UIView, :backgroundColor, :background { |view, color|
+  view.backgroundColor = color.uicolor
 }
 
 Teacup.alias UIView, :clips => :clipsToBounds
 
-Teacup.handler UIView, :contentMode { |mode|
+Teacup.handler UIView, :contentMode { |view, mode|
   mode = mode.uicontentmode if mode.is_a?(Symbol)
-  self.contentMode = mode
+  view.contentMode = mode
 }
 
-Teacup.handler UIView, :autoresizingMask, :autoresizing { |masks|
+Teacup.handler UIView, :autoresizingMask, :autoresizing { |view, masks|
   if masks.is_a? Enumerable
     actual_mask = 0
     masks.each do |mask|
@@ -50,10 +50,10 @@ Teacup.handler UIView, :autoresizingMask, :autoresizing { |masks|
   else
     actual_mask = masks
   end
-  self.autoresizingMask = actual_mask
+  view.autoresizingMask = actual_mask
 }
 
-Teacup.handler UIView, :shadow { |shadow|
+Teacup.handler UIView, :shadow { |view, shadow|
   {
     opacity: :'shadowOpacity=',
     radius: :'shadowRadius=',
@@ -65,72 +65,72 @@ Teacup.handler UIView, :shadow { |shadow|
       if key == :color && CFGetTypeID(value) != CGColorGetTypeID()
         value = value.uicolor.CGColor
       end
-      NSLog "Setting layer.#{msg} = #{value.inspect}" if self.respond_to? :debug and self.debug
-      self.layer.send(msg, value)
-      self.layer.masksToBounds = false
+      NSLog "Setting layer.#{msg} = #{value.inspect}" if view.respond_to? :debug and view.debug
+      view.layer.send(msg, value)
+      view.layer.masksToBounds = false
     end
   }
 }
 
-Teacup.handler UIView, :sizeToFit { |truthy|
-  self.sizeToFit if truthy
+Teacup.handler UIView, :sizeToFit { |view, truthy|
+  view.sizeToFit if truthy
 }
 
 # you would think this should be on UIImageView, but you can't subclass
 # UIImageView, and any subclass of UIView that has an image will find this
 # handler helpful.
-Teacup.handler UIView, :image { |img|
+Teacup.handler UIView, :image { |view, img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(self, img)
+    image = get_image_and_rect(view, img)
   end
-  self.image = image
+  view.image = image
 }
 
 
 # CALayer
 #
-Teacup.handler CALayer, :backgroundColor, :background { |color|
+Teacup.handler CALayer, :backgroundColor, :background { |view, color|
   if color && CFGetTypeID(color) != CGColorGetTypeID()
     color = color.uicolor.CGColor
   end
-  self.backgroundColor = color
+  view.backgroundColor = color
 }
 
-Teacup.handler CALayer, :borderColor, :border { |color|
+Teacup.handler CALayer, :borderColor, :border { |view, color|
   if color && CFGetTypeID(color) != CGColorGetTypeID()
     color = color.uicolor unless color.is_a?(UIColor)
     color = color.CGColor
   end
-  self.borderColor = color
+  view.borderColor = color
 }
 
 
 # UIActivityIndicatorView
 #
-Teacup.handler UIActivityIndicatorView, :color { |color|
-  self.color = color.uicolor
+Teacup.handler UIActivityIndicatorView, :color { |view, color|
+  view.color = color.uicolor
 }
 
-Teacup.handler UIActivityIndicatorView, :animating, :isAnimating { |animating|
+Teacup.handler UIActivityIndicatorView, :animating, :isAnimating { |view, animating|
   if animating
-    self.startAnimating
+    view.startAnimating
   else
-    self.stopAnimating
+    view.stopAnimating
   end
 }
 
-Teacup.handler UIActivityIndicatorView, :activityIndicatorViewStyle, :style { |style|
+Teacup.handler UIActivityIndicatorView, :activityIndicatorViewStyle, :style { |view, style|
   style = style.uiactivityindicatorstyle unless style.is_a?(Fixnum)
-  self.activityIndicatorViewStyle = style
+  view.activityIndicatorViewStyle = style
 }
 
 
 # UIButton
 #
-Teacup.handler UIButton, :font { |font|
-  self.titleLabel.font = font && font.uifont
+Teacup.handler UIButton, :font { |view, font|
+  view.titleLabel.font = font && font.uifont
 }
 
 module Sweettea
@@ -165,84 +165,84 @@ module Sweettea
   end
 end
 
-Teacup.handler UIButton, :normal { |values|
+Teacup.handler UIButton, :normal { |view, values|
   unless values.is_a?(Hash)
     NSLog("SWEETTEA WARNING: The {normal: image} handler is deprecated in favor of normal: { image: image }")
     values = { image: values }
   end
-  Sweettea.uibutton_state_handler(self, values, :normal)
+  Sweettea.uibutton_state_handler(view, values, :normal)
 }
 
-Teacup.handler UIButton, :disabled { |values|
+Teacup.handler UIButton, :disabled { |view, values|
   unless values.is_a?(Hash)
     NSLog("SWEETTEA WARNING: The {disabled: image} handler is deprecated in favor of disabled: { image: image }")
     values = { image: values }
   end
-  Sweettea.uibutton_state_handler(self, values, :disabled)
+  Sweettea.uibutton_state_handler(view, values, :disabled)
 }
 
-Teacup.handler UIButton, :selected { |values|
+Teacup.handler UIButton, :selected { |view, values|
   unless values.is_a?(Hash)
     NSLog("SWEETTEA WARNING: The {selected: image} handler is deprecated in favor of selected: { image: image }")
     values = { image: values }
   end
-  Sweettea.uibutton_state_handler(self, values, :selected)
+  Sweettea.uibutton_state_handler(view, values, :selected)
 }
 
-Teacup.handler UIButton, :highlighted { |values|
+Teacup.handler UIButton, :highlighted { |view, values|
   unless values.is_a?(Hash)
     NSLog("SWEETTEA WARNING: The {highlighted: image} handler is deprecated in favor of highlighted: { image: image }")
     values = { image: values }
   end
-  Sweettea.uibutton_state_handler(self, values, :highlighted)
+  Sweettea.uibutton_state_handler(view, values, :highlighted)
 }
 
-Teacup.handler UIButton, :textColor, :color { |color|
+Teacup.handler UIButton, :textColor, :color { |view, color|
   # this one is too handy to be deprecated.
-  Sweettea.uibutton_state_handler(self, { color: color }, :normal)
+  Sweettea.uibutton_state_handler(view, { color: color }, :normal)
 }
 
-Teacup.handler UIButton, :image { |img|
+Teacup.handler UIButton, :image { |view, img|
   # this one is too handy to be deprecated.
-  Sweettea.uibutton_state_handler(self, { image: img }, :normal)
+  Sweettea.uibutton_state_handler(view, { image: img }, :normal)
 }
 
-Teacup.handler UIButton, :bg_image { |img|
+Teacup.handler UIButton, :bg_image { |view, img|
   # this one is too handy to be deprecated.
-  Sweettea.uibutton_state_handler(self, { bg_image: img }, :normal)
+  Sweettea.uibutton_state_handler(view, { bg_image: img }, :normal)
 }
 
-Teacup.handler UIButton, :pushed { |img|
+Teacup.handler UIButton, :pushed { |view, img|
   NSLog("SWEETTEA WARNING: The :pushed handler is deprecated in favor of highlighted: { image: img }")
-  Sweettea.uibutton_state_handler(self, { image: img }, :highlighted)
+  Sweettea.uibutton_state_handler(view, { image: img }, :highlighted)
 }
 
-Teacup.handler UIButton, :bg_pushed { |img|
+Teacup.handler UIButton, :bg_pushed { |view, img|
   NSLog("SWEETTEA WARNING: The :bg_pushed handler is deprecated in favor of highlighted: { bg_image: img }")
-  Sweettea.uibutton_state_handler(self, { bg_image: img }, :highlighted)
+  Sweettea.uibutton_state_handler(view, { bg_image: img }, :highlighted)
 }
 
-Teacup.handler UIButton, :bg_highlighted { |img|
+Teacup.handler UIButton, :bg_highlighted { |view, img|
   NSLog("SWEETTEA WARNING: The :bg_highlighted handler is deprecated in favor of highlighted: { bg_image: img }")
-  Sweettea.uibutton_state_handler(self, { bg_image: img }, :highlighted)
+  Sweettea.uibutton_state_handler(view, { bg_image: img }, :highlighted)
 }
 
-Teacup.handler UIButton, :bg_selected { |img|
+Teacup.handler UIButton, :bg_selected { |view, img|
   NSLog("SWEETTEA WARNING: The :bg_selected handler is deprecated in favor of selected: { bg_image: img }")
-  Sweettea.uibutton_state_handler(self, { bg_image: img }, :selected)
+  Sweettea.uibutton_state_handler(view, { bg_image: img }, :selected)
 }
 
-Teacup.handler UIButton, :bg_disabled { |img|
+Teacup.handler UIButton, :bg_disabled { |view, img|
   NSLog("SWEETTEA WARNING: The :bg_disabled handler is deprecated in favor of disabled: { bg_image: img }")
-  Sweettea.uibutton_state_handler(self, { bg_image: img }, :disabled)
+  Sweettea.uibutton_state_handler(view, { bg_image: img }, :disabled)
 }
 
 
 # UIDatePicker
 #
-Teacup.handler UIDatePicker, :mode, :datePickerMode { |mode|
+Teacup.handler UIDatePicker, :mode, :datePickerMode { |view, mode|
   mode = mode.uidatepickermode if mode.is_a? Symbol
-  self.setDatePickerMode(mode)
+  view.setDatePickerMode(mode)
 }
 
 
@@ -256,98 +256,102 @@ Teacup.handler UIDatePicker, :mode, :datePickerMode { |mode|
 Teacup.alias UILabel, :autoshrink => :adjustsFontSizeToFitWidth
 Teacup.alias UILabel, :minimumSize => :minimumFontSize
 
-Teacup.handler UILabel, :shadowColor { |color|
-  self.shadowColor = color.uicolor
+Teacup.handler UILabel, :shadowColor { |view, color|
+  view.shadowColor = color.uicolor
 }
 
-Teacup.handler UILabel, :textColor, :color { |color|
-  self.textColor = color.uicolor
+Teacup.handler UILabel, :textColor, :color { |view, color|
+  view.textColor = color.uicolor
 }
 
-Teacup.handler UILabel, :font { |font|
-  self.font = font && font.uifont
+Teacup.handler UILabel, :font { |view, font|
+  view.font = font && font.uifont
 }
 
-Teacup.handler UILabel, :highlightedTextColor, :highlightedColor { |color|
-  self.highlightedTextColor = color.uicolor
+Teacup.handler UILabel, :highlightedTextColor, :highlightedColor { |view, color|
+  view.highlightedTextColor = color.uicolor
 }
 
-Teacup.handler UILabel, :lineBreakMode { |mode|
+Teacup.handler UILabel, :lineBreakMode { |view, mode|
   mode = mode.uilinebreakmode if mode.is_a? Symbol
-  self.lineBreakMode = mode
+  view.lineBreakMode = mode
 }
 
-Teacup.handler UILabel, :textAlignment, :alignment { |alignment|
+Teacup.handler UILabel, :textAlignment, :alignment { |view, alignment|
   alignment = alignment.uitextalignment if alignment.is_a? Symbol
-  self.textAlignment = alignment
+  view.textAlignment = alignment
 }
 
-Teacup.handler UILabel, :baselineAdjustment, :baseline { |baseline|
+Teacup.handler UILabel, :baselineAdjustment, :baseline { |view, baseline|
   baseline = baseline.uibaselineadjustment if baseline.is_a? Symbol
-  self.baselineAdjustment = baseline
+  view.baselineAdjustment = baseline
 }
 
 # UINavigationBar
 #
-Teacup.handler UINavigationBar, :backgroundImage { |styles|
+Teacup.handler UINavigationBar, :backgroundImage { |view, styles|
   styles.each do |metric, image|
     metric = metric.uibarmetrics if metric.is_a? Symbol
-    self.setBackgroundImage(image && image.uiimage, forBarMetrics:metric)
+    view.setBackgroundImage(image && image.uiimage, forBarMetrics:metric)
   end
 }
 
 
 # UITableView
 #
-Teacup.handler UITableView, :separatorStyle, :separator { |separator|
+Teacup.handler UITableView, :separatorStyle, :separator { |view, separator|
   separator = separator.uitablecellseparatorstyle if separator.is_a? Symbol
-  self.separatorStyle = separator
+  view.separatorStyle = separator
+}
+
+
+# UITableViewCell
+#
+Teacup.handler UITableViewCell, :selectionStyle { |view, selection|
+  selection = selection.uitablecellselectionstyle if selection.is_a? Symbol
+  view.selectionStyle = selection
 }
 
 
 # UITextField
 #
-Teacup.alias UITextView, :secure => :secureTextEntry
+Teacup.alias UITextField, :secure => :secureTextEntry
 
-Teacup.handler UITableView, :separatorStyle, :separator { |separator|
+Teacup.handler UITableView, :separatorStyle, :separator { |view, separator|
   separator = separator.uitablecellseparatorstyle if separator.is_a? Symbol
-  self.separatorStyle = separator
+  view.separatorStyle = separator
 }
 
-Teacup.handler UITextField, :keyboardType, :keyboard { |type|
+Teacup.handler UITextField, :keyboardType, :keyboard { |view, type|
   type = type.uikeyboardtype unless type.is_a?(Fixnum)
-  self.setKeyboardType(type)
+  view.setKeyboardType(type)
 }
 
-Teacup.handler UITextField, :returnKeyType, :returnKey, :returnkey { |type|
+Teacup.handler UITextField, :returnKeyType, :returnKey, :returnkey { |view, type|
   type = type.uireturnkey if type.is_a? Symbol
-  self.setReturnKeyType(type)
+  view.setReturnKeyType(type)
 }
 
-Teacup.handler UITextField, :secure { |is_secure|
-  self.secureTextEntry = is_secure
+Teacup.handler UITextField, :textColor, :color { |view, color|
+  view.textColor = color.uicolor
 }
 
-Teacup.handler UITextField, :textColor, :color { |color|
-  self.textColor = color.uicolor
+Teacup.handler UITextField, :font { |view, font|
+  view.font = font && font.uifont
 }
 
-Teacup.handler UITextField, :font { |font|
-  self.font = font && font.uifont
-}
-
-Teacup.handler UITextField, :textAlignment, :alignment { |alignment|
+Teacup.handler UITextField, :textAlignment, :alignment { |view, alignment|
   alignment = alignment.uitextalignment if alignment.is_a? Symbol
-  self.textAlignment = alignment
+  view.textAlignment = alignment
 }
 
-Teacup.handler UITextField, :borderStyle, :border { |border|
+Teacup.handler UITextField, :borderStyle, :border { |view, border|
   border = border.uibordertype if border.is_a? Symbol
-  self.borderStyle = border
+  view.borderStyle = border
 }
 
-Teacup.handler UITextField, :background { |image|
-  self.background = image && image.uiimage
+Teacup.handler UITextField, :background { |view, image|
+  view.background = image && image.uiimage
 }
 
 
@@ -355,29 +359,25 @@ Teacup.handler UITextField, :background { |image|
 #
 Teacup.alias UITextView, :secure => :secureTextEntry
 
-Teacup.handler UITextView, :keyboardType, :keyboard { |type|
+Teacup.handler UITextView, :keyboardType, :keyboard { |view, type|
   type = type.uikeyboardtype unless type.is_a?(Fixnum)
-  self.setKeyboardType(type)
+  view.setKeyboardType(type)
 }
 
-Teacup.handler UITextView, :returnKeyType, :returnKey, :returnkey { |type|
+Teacup.handler UITextView, :returnKeyType, :returnKey, :returnkey { |view, type|
   type = type.uireturnkey if type.is_a? Symbol
-  self.setReturnKeyType(type)
+  view.setReturnKeyType(type)
 }
 
-Teacup.handler UITextView, :secure { |is_secure|
-  self.secureTextEntry = is_secure
+Teacup.handler UITextView, :textColor, :color { |view, color|
+  view.textColor = color.uicolor
 }
 
-Teacup.handler UITextView, :textColor, :color { |color|
-  self.textColor = color.uicolor
+Teacup.handler UITextView, :font { |view, font|
+  view.font = font && font.uifont
 }
 
-Teacup.handler UITextView, :font { |font|
-  self.font = font && font.uifont
-}
-
-Teacup.handler UITextView, :textAlignment, :alignment { |alignment|
+Teacup.handler UITextView, :textAlignment, :alignment { |view, alignment|
   alignment = alignment.uitextalignment if alignment.is_a? Symbol
-  self.textAlignment = alignment
+  view.textAlignment = alignment
 }
