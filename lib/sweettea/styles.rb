@@ -50,4 +50,34 @@ Teacup::Stylesheet.new :sweettea do
   style :secure_input, extends: :input,
     secureTextEntry: true
 
+  # button images from http://nathanbarry.com/designing-buttons-ios5/
+  # thanks, nathan!
+  style :tan_button,
+    normal: { bg_image: 'tanButton'.uiimage.stretchable([18, 18, 18, 18]) },
+    highlighted: { bg_image: 'tanButtonHighlight'.uiimage.stretchable([18, 18, 18, 18]) }
+
+  style :black_button,
+    normal: { bg_image: 'blackButton'.uiimage.stretchable([18, 18, 18, 18]) },
+    highlighted: { bg_image: 'blackButtonHighlight'.uiimage.stretchable([18, 18, 18, 18]) }
+
+  style :green_button,
+    normal: { bg_image: 'greenButton'.uiimage.stretchable([18, 18, 18, 18]) },
+    highlighted: { bg_image: 'greenButtonHighlight'.uiimage.stretchable([18, 18, 18, 18]) }
+
+  style :orange_button,
+    normal: { bg_image: 'orangeButton'.uiimage.stretchable([18, 18, 18, 18]) },
+    highlighted: { bg_image: 'orangeButtonHighlight'.uiimage.stretchable([18, 18, 18, 18]) }
+
+  style :blue_button,
+    normal: { bg_image: 'blueButton'.uiimage.stretchable([18, 18, 18, 18]) },
+    highlighted: { bg_image: 'blueButtonHighlight'.uiimage.stretchable([18, 18, 18, 18]) }
+
+  style :white_button,
+    normal: { bg_image: 'whiteButton'.uiimage.stretchable([18, 18, 18, 18]) },
+    highlighted: { bg_image: 'whiteButtonHighlight'.uiimage.stretchable([18, 18, 18, 18]) }
+
+  style :gray_button,
+    normal: { bg_image: 'greyButton'.uiimage.stretchable([18, 18, 18, 18]) },
+    highlighted: { bg_image: 'greyButtonHighlight'.uiimage.stretchable([18, 18, 18, 18]) }
+
 end

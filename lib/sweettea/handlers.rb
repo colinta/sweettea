@@ -2,27 +2,60 @@
 
 # the Helpers
 #
-def get_image_and_rect(view, img, insets=nil)
-  return nil unless img
+module Sweettea
+  module_function
 
-  image = img.uiimage
-  if img && ! image
-    NSLog("WARN: Could not find #{img.inspect}")
-    return nil
-  end
-  raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
+  def uibutton_state_handler(target, properties, state)
+    actual_state = state.is_a?(Symbol) ? state.uicontrolstate : state
+    properties.each do |property, value|
+      if property == :image || property == :bg_image || property == :backgroundImage
+        if value
+          value = Sweettea.get_image_and_rect(target, value, target.contentEdgeInsets)
+        end
+      end
 
-  if view.frame.size.width == 0 and view.frame.size.height == 0
-    new_frame = CGRect.new(view.frame.origin, image.size)
-    if insets
-      new_frame.origin.x -= insets[1]
-      new_frame.origin.y -= insets[0]
-      new_frame.size.width += insets[1] + insets[3]
-      new_frame.size.height += insets[0] + insets[2]
+      case property
+      when :title
+        target.setTitle(value.localized, forState:actual_state)
+      when :attributed
+        target.setAttributedTitle(value, forState:actual_state)
+      when :color
+        target.setTitleColor(value && value.uicolor, forState:actual_state)
+      when :shadow
+        target.setTitleShadowColor(value && value.uicolor, forState:actual_state)
+      when :bg_image, :backgroundImage
+        target.setBackgroundImage(value && value.uiimage, forState:actual_state)
+      when :image
+        target.setImage(value && value.uiimage, forState:actual_state)
+      else
+        NSLog "SWEETTEA WARNING: Can't apply #{value.inspect} to #{property.inspect} forState: #{state.inspect} to #{target.inspect}"
+      end
     end
-    view.frame = new_frame
   end
-  return image
+
+  def get_image_and_rect(view, img, insets=nil)
+    return nil unless img
+
+    image = img.uiimage
+    if img && ! image
+      NSLog("WARN: Could not find #{img.inspect}")
+      return nil
+    end
+    raise "Expected UIImage in Teacup handler, not #{image.inspect}" unless image.is_a?(UIImage)
+
+    if view.frame.size.width == 0 and view.frame.size.height == 0
+      new_frame = CGRect.new(view.frame.origin, image.size)
+      if insets
+        new_frame.origin.x -= insets[1]
+        new_frame.origin.y -= insets[0]
+        new_frame.size.width += insets[1] + insets[3]
+        new_frame.size.height += insets[0] + insets[2]
+      end
+      view.frame = new_frame
+    end
+    return image
+  end
+
 end
 
 # the Views
@@ -83,7 +116,7 @@ Teacup.handler UIView, :image { |view, img|
   if img == nil
     image = nil
   else
-    image = get_image_and_rect(view, img)
+    image = Sweettea.get_image_and_rect(view, img)
   end
   view.image = image
 }
@@ -144,38 +177,6 @@ Teacup.handler UIButton, :font { |view, font|
 Teacup.handler UIButton, :titleColor { |target, color|
   target.setTitleColor(color.uicolor, forState: UIControlStateNormal)
 }
-
-module Sweettea
-  module_function
-
-  def uibutton_state_handler(target, properties, state)
-    actual_state = state.is_a?(Symbol) ? state.uicontrolstate : state
-    properties.each do |property, value|
-      if property == :image || property == :bg_image
-        if value
-          value = get_image_and_rect(target, value, target.contentEdgeInsets)
-        end
-      end
-
-      case property
-      when :title
-        target.setTitle(value.localized, forState:actual_state)
-      when :attributed
-        target.setAttributedTitle(value, forState:actual_state)
-      when :color
-        target.setTitleColor(value && value.uicolor, forState:actual_state)
-      when :shadow
-        target.setTitleShadowColor(value && value.uicolor, forState:actual_state)
-      when :bg_image
-        target.setBackgroundImage(value && value.uiimage, forState:actual_state)
-      when :image
-        target.setImage(value && value.uiimage, forState:actual_state)
-      else
-        NSLog "SWEETTEA WARNING: Can't apply #{value.inspect} to #{property.inspect} forState: #{state.inspect} to #{target.inspect}"
-      end
-    end
-  end
-end
 
 Teacup.handler UIButton, :normal { |view, values|
   unless values.is_a?(Hash)
