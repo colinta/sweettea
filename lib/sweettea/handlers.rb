@@ -88,6 +88,12 @@ Teacup.handler UIView, :image { |view, img|
   view.image = image
 }
 
+# Here again, tintColor is not actually defined on UIView, but it is defined on
+# so many subclass that it just makes sense to me to have it everywhere.
+Teacup.handler UIView, :tint, :tintColor { |view, color|
+  view.tintColor = color.uicolor
+}
+
 
 # CALayer
 #
