@@ -251,7 +251,7 @@ Teacup.handler UIButton, :bg_disabled { |view, img|
 }
 
 Teacup.handler UIButton, :titlePadding { |target, padding|
-  target.setTitleEdgeInsets(UIEdgeInsetsMake(padding[0], padding[1], padding[2], padding[3]))
+  target.setTitleEdgeInsets(padding) # padding can be a UIEdgeInset or an array of four numbers
 }
 
 # UIDatePicker
