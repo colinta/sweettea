@@ -250,6 +250,9 @@ Teacup.handler UIButton, :bg_disabled { |view, img|
   Sweettea.uibutton_state_handler(view, { bg_image: img }, :disabled)
 }
 
+Teacup.handler UIButton, :titlePadding { |target, padding|
+  target.setTitleEdgeInsets(padding) # padding can be a UIEdgeInset or an array of four numbers
+}
 
 # UIDatePicker
 #
