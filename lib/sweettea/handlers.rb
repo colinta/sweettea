@@ -127,6 +127,37 @@ Teacup.handler UIView, :tint, :tintColor { |view, color|
   view.tintColor = color.uicolor
 }
 
+# handler for non-four-sided borders on uiviews, for example only a top and bottom border,
+# or only a left and right border.  Sides are denoted using hash syntax, ex.
+# border: {
+#   right: {
+#     width: 1.0,
+#     color: :green
+#   },
+#   left: {
+#     width: 1.0,
+#     color: :green
+#   }
+# }
+Teacup.handler UIView, :border do |view, border|
+  border.each do |pos, props|
+    sublayer = CALayer.layer
+    if props[:color] && CFGetTypeID(props[:color]) != CGColorGetTypeID()
+      sublayer.backgroundColor = props[:color].uicolor.CGColor
+    end
+    case pos
+      when :top
+        sublayer.frame = CGRectMake(0, 0, view.frame.size.width, props[:width])
+      when :bottom
+        sublayer.frame = CGRectMake(0, view.frame.size.height - props[:width], view.frame.size.width, props[:width])
+      when :left
+        sublayer.frame = CGRectMake(0, 0, props[:width], view.frame.size.height)
+      when :right
+        sublayer.frame = CGRectMake(view.frame.size.width - props[:width], 0, props[:width], view.frame.size.height)
+    end
+    view.layer.addSublayer(sublayer)
+  end
+end
 
 # CALayer
 #
