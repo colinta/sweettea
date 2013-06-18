@@ -142,18 +142,23 @@ Teacup.handler UIView, :tint, :tintColor { |view, color|
 Teacup.handler UIView, :border do |view, border|
   border.each do |pos, props|
     sublayer = CALayer.layer
-    if props[:color] && CFGetTypeID(props[:color]) != CGColorGetTypeID()
-      sublayer.backgroundColor = props[:color].uicolor.CGColor
+    if props[:color]
+      color = props[:color].uicolor
+      if CFGetTypeID(color) != CGColorGetTypeID()
+        color = color.CGColor
+      end
+      sublayer.backgroundColor = color
     end
+    width = props[:width] || 1.0
     case pos
-      when :top
-        sublayer.frame = CGRectMake(0, 0, view.frame.size.width, props[:width])
-      when :bottom
-        sublayer.frame = CGRectMake(0, view.frame.size.height - props[:width], view.frame.size.width, props[:width])
-      when :left
-        sublayer.frame = CGRectMake(0, 0, props[:width], view.frame.size.height)
-      when :right
-        sublayer.frame = CGRectMake(view.frame.size.width - props[:width], 0, props[:width], view.frame.size.height)
+    when :top
+      sublayer.frame = CGRectMake(0, 0, view.frame.size.width, width)
+    when :bottom
+      sublayer.frame = CGRectMake(0, view.frame.size.height - width, view.frame.size.width, width)
+    when :left
+      sublayer.frame = CGRectMake(0, 0, width, view.frame.size.height)
+    when :right
+      sublayer.frame = CGRectMake(view.frame.size.width - width, 0, width, view.frame.size.height)
     end
     view.layer.addSublayer(sublayer)
   end
