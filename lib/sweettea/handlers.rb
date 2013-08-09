@@ -75,13 +75,13 @@ Teacup.handler UIView, :autoresizingMask, :autoresizing { |view, masks|
   if masks.is_a? Enumerable
     actual_mask = 0
     masks.each do |mask|
-      mask = mask.uiautoresizemask if mask.is_a? Symbol
+      mask = mask.uiautoresizemask unless mask.is_a? Numeric
       actual_mask |= mask
     end
-  elsif masks.is_a? Symbol
-    actual_mask = masks.uiautoresizemask
-  else
+  elsif masks.is_a? Numeric
     actual_mask = masks
+  else
+    actual_mask = masks.uiautoresizemask
   end
   view.autoresizingMask = actual_mask
 }
@@ -290,7 +290,7 @@ Teacup.handler UIButton, :bg_disabled { |view, img|
 # UIDatePicker
 #
 Teacup.handler UIDatePicker, :mode, :datePickerMode { |view, mode|
-  mode = mode.uidatepickermode if mode.is_a? Symbol
+  mode = mode.uidatepickermode unless mode.is_a? Numeric
   view.setDatePickerMode(mode)
 }
 
@@ -322,17 +322,17 @@ Teacup.handler UILabel, :highlightedTextColor, :highlightedColor { |view, color|
 }
 
 Teacup.handler UILabel, :lineBreakMode { |view, mode|
-  mode = mode.uilinebreakmode if mode.is_a? Symbol
+  mode = mode.uilinebreakmode unless mode.is_a? Numeric
   view.lineBreakMode = mode
 }
 
 Teacup.handler UILabel, :textAlignment, :alignment { |view, alignment|
-  alignment = alignment.uitextalignment if alignment.is_a? Symbol
+  alignment = alignment.uitextalignment unless alignment.is_a? Numeric
   view.textAlignment = alignment
 }
 
 Teacup.handler UILabel, :baselineAdjustment, :baseline { |view, baseline|
-  baseline = baseline.uibaselineadjustment if baseline.is_a? Symbol
+  baseline = baseline.uibaselineadjustment unless baseline.is_a? Numeric
   view.baselineAdjustment = baseline
 }
 
@@ -340,7 +340,7 @@ Teacup.handler UILabel, :baselineAdjustment, :baseline { |view, baseline|
 #
 Teacup.handler UINavigationBar, :backgroundImage { |view, styles|
   styles.each do |metric, image|
-    metric = metric.uibarmetrics if metric.is_a? Symbol
+    metric = metric.uibarmetrics unless metric.is_a? Numeric
     view.setBackgroundImage(image && image.uiimage, forBarMetrics:metric)
   end
 }
@@ -349,7 +349,7 @@ Teacup.handler UINavigationBar, :backgroundImage { |view, styles|
 # UITableView
 #
 Teacup.handler UITableView, :separatorStyle, :separator { |view, separator|
-  separator = separator.uitablecellseparatorstyle if separator.is_a? Symbol
+  separator = separator.uitablecellseparatorstyle unless separator.is_a? Numeric
   view.separatorStyle = separator
 }
 
@@ -357,8 +357,14 @@ Teacup.handler UITableView, :separatorStyle, :separator { |view, separator|
 # UITableViewCell
 #
 Teacup.handler UITableViewCell, :selectionStyle { |view, selection|
-  selection = selection.uitablecellselectionstyle if selection.is_a? Symbol
+  selection = selection.uitablecellselectionstyle unless selection.is_a? Numeric
   view.selectionStyle = selection
+}
+
+
+Teacup.handler UITableViewCell, :accessoryType { |view, selection|
+  selection = selection.uitablecellaccessory unless selection.is_a? Numeric
+  view.accessoryType = selection
 }
 
 
@@ -367,7 +373,7 @@ Teacup.handler UITableViewCell, :selectionStyle { |view, selection|
 Teacup.alias UITextField, :secure => :secureTextEntry
 
 Teacup.handler UITableView, :separatorStyle, :separator { |view, separator|
-  separator = separator.uitablecellseparatorstyle if separator.is_a? Symbol
+  separator = separator.uitablecellseparatorstyle unless separator.is_a? Numeric
   view.separatorStyle = separator
 }
 
@@ -377,7 +383,7 @@ Teacup.handler UITextField, :keyboardType, :keyboard { |view, type|
 }
 
 Teacup.handler UITextField, :returnKeyType, :returnKey, :returnkey { |view, type|
-  type = type.uireturnkey if type.is_a? Symbol
+  type = type.uireturnkey unless type.is_a? Numeric
   view.setReturnKeyType(type)
 }
 
@@ -390,12 +396,12 @@ Teacup.handler UITextField, :font { |view, font|
 }
 
 Teacup.handler UITextField, :textAlignment, :alignment { |view, alignment|
-  alignment = alignment.uitextalignment if alignment.is_a? Symbol
+  alignment = alignment.uitextalignment unless alignment.is_a? Numeric
   view.textAlignment = alignment
 }
 
 Teacup.handler UITextField, :borderStyle, :border { |view, border|
-  border = border.uibordertype if border.is_a? Symbol
+  border = border.uibordertype unless border.is_a? Numeric
   view.borderStyle = border
 }
 
@@ -414,7 +420,7 @@ Teacup.handler UITextView, :keyboardType, :keyboard { |view, type|
 }
 
 Teacup.handler UITextView, :returnKeyType, :returnKey, :returnkey { |view, type|
-  type = type.uireturnkey if type.is_a? Symbol
+  type = type.uireturnkey unless type.is_a? Numeric
   view.setReturnKeyType(type)
 }
 
@@ -427,6 +433,6 @@ Teacup.handler UITextView, :font { |view, font|
 }
 
 Teacup.handler UITextView, :textAlignment, :alignment { |view, alignment|
-  alignment = alignment.uitextalignment if alignment.is_a? Symbol
+  alignment = alignment.uitextalignment unless alignment.is_a? Numeric
   view.textAlignment = alignment
 }
