@@ -54,7 +54,7 @@ style :label,
     require 'sweettea'
 
 
-If you want to use the added base styles (secure_input, email_input, etc) add 
+If you want to use the added base styles (secure_input, email_input, etc) add
 
     import :sweettea
 
@@ -62,8 +62,7 @@ to your stylesheet, you can then use them like this:
 
     style :password_field, extends: :secure_input,
       placeholder: "Password"
-      
 
+To learn about the included styles, check out [`styles.rb`][styles]
 
-
-
+[styles]: https://github.com/colinta/sweettea/blob/master/lib/sweettea/styles.rb
