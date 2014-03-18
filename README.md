@@ -52,3 +52,18 @@ style :label,
     require 'sugarcube'
     require 'teacup'
     require 'sweettea'
+
+
+If you want to use the added base styles (secure_input, email_input, etc) add 
+
+    import :sweettea
+
+to your stylesheet, you can then use them like this:
+
+    style :password_field, extends: :secure_input,
+      placeholder: "Password"
+      
+
+
+
+
